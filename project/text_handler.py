@@ -7,6 +7,10 @@ from aiogram.types import Contact
 from project.logger import logger
 
 
+def get_phone_book_path(user_name: str) -> str:
+    return os.path.join('contacts', f'phone_book_{user_name}.txt')
+
+
 def handle_line(line: str) -> tuple[str, ...]:
     logger.debug(f'line: {line}')
     items = tuple(item.strip() for item in line.split(','))
@@ -35,7 +39,7 @@ def checked_handle_line(line: str) -> tuple[str, ...]:
 
 def write_line(line: tuple[str, ...], user_name: str):
     logger.debug(f'line: {line}')
-    with open(os.path.join('contacts', f'phone_book_{user_name}.txt'), 'a') as f:
+    with open(get_phone_book_path(user_name), 'a') as f:
         f.write(','.join(line) + '\n')
 
 
@@ -45,7 +49,7 @@ def find_line(line: str, user_name: str) -> typing.Optional[tuple[str, ...]]:
     reversed_line = ','.join(handle_line(line)[::-1])
     logger.debug(f'line: {line}')
 
-    with open(os.path.join('contacts', f'phone_book_{user_name}.txt'), 'r') as f:
+    with open(get_phone_book_path(user_name), 'r') as f:
         for f_line in f.readlines():
             if line in f_line or reversed_line in f_line:
                 return handle_line(f_line)
@@ -56,20 +60,24 @@ def find_line(line: str, user_name: str) -> typing.Optional[tuple[str, ...]]:
 def delete_line(line: str, user_name: str):
     logger.debug(f'line: {line}')
     line = ','.join(handle_line(line))
-    with open(os.path.join('contacts', f'phone_book_{user_name}.txt'), 'r') as f:
+    reversed_line = ','.join(handle_line(line)[::-1])
+    with open(get_phone_book_path(user_name), 'r') as f:
         lines = f.readlines()
 
     flag = False
 
     for i, f_line in enumerate(lines.copy()):
         logger.debug(f'f_line: {f_line}, line: {line}')
-        if line in f_line:
+        if line in f_line or reversed_line in f_line:
             flag = True
             lines.pop(i)
             break
 
     assert flag, 'Контакт не найден, удаление не выполнено'
 
-    with open(os.path.join('contacts', f'phone_book_{user_name}.txt'), 'w') as f:
-        f.writelines(lines)
+    if lines:
+        with open(get_phone_book_path(user_name), 'w') as f:
+            f.writelines(lines)
+    else:
+        os.remove(get_phone_book_path(user_name))
 
