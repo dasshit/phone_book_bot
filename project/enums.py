@@ -2,6 +2,9 @@ from enum import Enum
 
 
 class BotTextEnum(str, Enum):
+    """
+    Текст для сообщений бота
+    """
     WELCOME_TEXT = """Привет, это бот-телефонная книга
 Я могу хранить и показывать контакты.
 Пожалуйста, выберите, что вы хотите сделать:"""
@@ -29,6 +32,9 @@ class BotTextEnum(str, Enum):
 
 
 class UserTextCommandsEnum(str, Enum):
+    """
+    Текст из сообщений клавиатуры пользователя
+    """
     PLACEHOLDER = "Выберите действие"
     WRITE_CONTACT = "Записать контакт"
     SHOW_CONTACT = "Посмотреть контакт"

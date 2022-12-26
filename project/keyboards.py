@@ -4,7 +4,7 @@ from aiogram.types import ReplyKeyboardMarkup
 from project.enums import UserTextCommandsEnum
 
 
-log_in_out_keyboard = ReplyKeyboardMarkup(
+CHOOSE_OPERATION_KEYBOARD = ReplyKeyboardMarkup(
     keyboard=[
         [KeyboardButton(text=UserTextCommandsEnum.WRITE_CONTACT)],
         [KeyboardButton(text=UserTextCommandsEnum.SHOW_CONTACT)],
@@ -15,10 +15,19 @@ log_in_out_keyboard = ReplyKeyboardMarkup(
     input_field_placeholder=UserTextCommandsEnum.PLACEHOLDER
 )
 
-logout_keyboard = ReplyKeyboardMarkup(
+CHOOSE_CONTACT_VIEW_KEYBOARD = ReplyKeyboardMarkup(
     keyboard=[
         [KeyboardButton(text=UserTextCommandsEnum.SHOW_CONTACT_ONE_LINE)],
         [KeyboardButton(text=UserTextCommandsEnum.SHOW_CONTACT_MULTI_LINE)],
+        [KeyboardButton(text=UserTextCommandsEnum.BACK)],
+    ],
+    resize_keyboard=True,
+    input_field_placeholder=UserTextCommandsEnum.PLACEHOLDER
+)
+
+
+BACK_KEYBOARD = ReplyKeyboardMarkup(
+    keyboard=[
         [KeyboardButton(text=UserTextCommandsEnum.BACK)],
     ],
     resize_keyboard=True,
