@@ -32,7 +32,9 @@ async def choose_show_contact(message: Message, state: FSMContext):
     UserState.SHOW_CONTACT_CARD
 )
 async def show_contact_vcard(message: Message, state: FSMContext):
-
+    """
+    Отображение всех найденных контактов карточкой
+    """
     text = message.text.strip()
 
     contact_query = Contact.select().where(

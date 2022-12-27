@@ -31,6 +31,9 @@ async def contact_by_card(message: Message, state: FSMContext):
     UserState.ENTER_LAST_NAME
 )
 async def enter_last_name(message: Message, state: FSMContext):
+    """
+    Ввод фамилии контакта
+    """
     if message.text is None:
         await message.reply(
             text='Введите фамилию текстом'
@@ -45,7 +48,10 @@ async def enter_last_name(message: Message, state: FSMContext):
 @router.message(
     UserState.ENTER_FIRST_NAME
 )
-async def enter_last_name(message: Message, state: FSMContext):
+async def enter_first_name(message: Message, state: FSMContext):
+    """
+    Ввод имени контакта
+    """
     if message.text is None:
         await message.reply(
             text='Введите имя текстом'
@@ -60,7 +66,10 @@ async def enter_last_name(message: Message, state: FSMContext):
 @router.message(
     UserState.ENTER_PHONE
 )
-async def enter_last_name(message: Message, state: FSMContext):
+async def enter_phone(message: Message, state: FSMContext):
+    """
+    Ввод номера контакта
+    """
     if message.text is None:
         await message.reply(
             text='Введите номер текстом'
@@ -76,6 +85,9 @@ async def enter_last_name(message: Message, state: FSMContext):
     UserState.ENTER_CONTACT_TYPE
 )
 async def enter_last_name(message: Message, state: FSMContext):
+    """
+    Ввод типа контакта и сохранения его в базу
+    """
     if message.text is None:
         await message.reply(
             text='Введите тип текстом'

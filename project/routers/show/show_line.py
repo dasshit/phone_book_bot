@@ -31,7 +31,9 @@ async def choose_show_contact(message: Message, state: FSMContext):
     UserState.SHOW_CONTACT_MULTILINE
 )
 async def show_contact_multiline(message: Message, state: FSMContext):
-
+    """
+    Отображение всех найденных контактов текстом
+    """
     text = message.text.strip()
 
     contact_query = Contact.select().where(

@@ -29,7 +29,9 @@ async def choose_delete_contact(message: Message, state: FSMContext):
 
 @router.message(UserState.DELETE_CONTACT)
 async def delete_contact(message: Message, state: FSMContext):
-
+    """
+    Удаление контакта
+    """
     contact_query = Contact.select().where(
         Contact.user == get_user_model(state),
         Contact.phone == message.text.strip()
