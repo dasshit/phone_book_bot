@@ -1,13 +1,12 @@
 import asyncio
-import logging
 import os
 
 from aiogram import Bot, Dispatcher
-from project.handlers import router
+
+from project.routers import router
 
 
 async def main():
-    logging.basicConfig(level=logging.DEBUG)
     bot = Bot(token=os.getenv("TOKEN"))
     dp = Dispatcher()
 

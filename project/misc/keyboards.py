@@ -1,7 +1,7 @@
 from aiogram.types import KeyboardButton
 from aiogram.types import ReplyKeyboardMarkup
 
-from project.enums import UserTextCommandsEnum
+from project.misc.enums import UserTextCommandsEnum
 
 
 CHOOSE_OPERATION_KEYBOARD = ReplyKeyboardMarkup(
@@ -15,10 +15,22 @@ CHOOSE_OPERATION_KEYBOARD = ReplyKeyboardMarkup(
     input_field_placeholder=UserTextCommandsEnum.PLACEHOLDER
 )
 
-CHOOSE_CONTACT_VIEW_KEYBOARD = ReplyKeyboardMarkup(
+
+ENTER_CONTACT_KEYBOARD = ReplyKeyboardMarkup(
     keyboard=[
-        [KeyboardButton(text=UserTextCommandsEnum.SHOW_CONTACT_ONE_LINE)],
+        [KeyboardButton(text=UserTextCommandsEnum.WRITE_CONTACT_BY_PARTS)],
+        [KeyboardButton(text=UserTextCommandsEnum.WRITE_CONTACT_BY_CARD)],
+        [KeyboardButton(text=UserTextCommandsEnum.BACK)],
+    ],
+    resize_keyboard=True,
+    input_field_placeholder=UserTextCommandsEnum.PLACEHOLDER
+)
+
+
+SHOW_CONTACT_KEYBOARD = ReplyKeyboardMarkup(
+    keyboard=[
         [KeyboardButton(text=UserTextCommandsEnum.SHOW_CONTACT_MULTI_LINE)],
+        [KeyboardButton(text=UserTextCommandsEnum.SHOW_CONTACT_VCARD)],
         [KeyboardButton(text=UserTextCommandsEnum.BACK)],
     ],
     resize_keyboard=True,
