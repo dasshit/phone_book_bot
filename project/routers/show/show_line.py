@@ -5,6 +5,7 @@ from aiogram.types import Message
 
 from project.db.models import Contact
 from project.fsm.state import UserState
+from project.misc.logger import logger
 from project.misc.enums import UserTextCommandsEnum, BotTextEnum
 from project.misc.keyboards import BACK_KEYBOARD, CHOOSE_OPERATION_KEYBOARD
 from project.misc.utils import get_user_model
@@ -20,6 +21,7 @@ async def choose_show_contact(message: Message, state: FSMContext):
     """
     Обработка комманды 'Записать контакт'
     """
+    logger.info('Переход в режим отображения контакта текстом')
     await message.reply(
         text=BotTextEnum.ENTER_CONTACT_DATA,
         reply_markup=BACK_KEYBOARD
@@ -34,10 +36,11 @@ async def show_contact_multiline(message: Message, state: FSMContext):
     """
     Отображение всех найденных контактов текстом
     """
+    logger.info('Поиск и отображение контакта текстом')
     text = message.text.strip()
 
     contact_query = Contact.select().where(
-        Contact.user == get_user_model(state),
+        Contact.user == await get_user_model(state),
         (Contact.first_name == text) | (Contact.last_name == text) | (Contact.phone == text)
     )
 

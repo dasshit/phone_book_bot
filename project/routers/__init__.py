@@ -10,7 +10,7 @@ from project.db.models import User
 from project.misc.enums import UserTextCommandsEnum, BotTextEnum
 from project.misc.keyboards import CHOOSE_OPERATION_KEYBOARD
 from project.misc.logger import logger
-from project.routers import add, show, delete
+from project.routers import add, show, delete, dump
 from project.fsm.state import UserState
 
 
@@ -39,6 +39,7 @@ router.message.middleware(LoggerMiddleware())
 router.include_router(add.router)
 router.include_router(show.router)
 router.include_router(delete.router)
+router.include_router(dump.router)
 
 
 @router.errors()
@@ -62,6 +63,7 @@ async def command_start(message: Message, state: FSMContext):
     """
     Обработка комманды '/start'
     """
+    logger.info('Команда /start')
     user_model, _ = User.get_or_create(
         user_name=message.chat.username,
         first_name=message.chat.first_name,
@@ -82,6 +84,7 @@ async def comming_back(message: Message, state: FSMContext):
     """
     Обработка комманды 'Назад'
     """
+    logger.info(f'Возвращаемся из {await state.get_state()} в UserState.INITIAL_STATE')
     await message.answer(
         text=BotTextEnum.COMMIN_BACK,
         reply_markup=CHOOSE_OPERATION_KEYBOARD

@@ -5,6 +5,7 @@ from aiogram.types import Message
 
 from project.db.models import Contact
 from project.fsm.state import UserState
+from project.misc.logger import logger
 from project.misc.enums import BotTextEnum, UserTextCommandsEnum
 from project.misc.keyboards import BACK_KEYBOARD, CHOOSE_OPERATION_KEYBOARD
 from project.misc.utils import get_user_model
@@ -20,6 +21,7 @@ async def contact_by_card(message: Message, state: FSMContext):
     """
     Импорт контакта через контакт из адресной книги телефона
     """
+    logger.info(f'Переход в режим записи контакта поэтапно')
     await message.reply(
         text="Введите фамилию контакта",
         reply_markup=BACK_KEYBOARD,
@@ -34,6 +36,7 @@ async def enter_last_name(message: Message, state: FSMContext):
     """
     Ввод фамилии контакта
     """
+    logger.info(f'Ввод фамилии контакта')
     if message.text is None:
         await message.reply(
             text='Введите фамилию текстом'
@@ -52,6 +55,7 @@ async def enter_first_name(message: Message, state: FSMContext):
     """
     Ввод имени контакта
     """
+    logger.info(f'Ввод имени контакта')
     if message.text is None:
         await message.reply(
             text='Введите имя текстом'
@@ -70,6 +74,7 @@ async def enter_phone(message: Message, state: FSMContext):
     """
     Ввод номера контакта
     """
+    logger.info(f'Ввод номера контакта')
     if message.text is None:
         await message.reply(
             text='Введите номер текстом'
@@ -88,13 +93,16 @@ async def enter_last_name(message: Message, state: FSMContext):
     """
     Ввод типа контакта и сохранения его в базу
     """
+    logger.info(f'Ввод типа контакта и сохранение в базу')
     if message.text is None:
         await message.reply(
             text='Введите тип текстом'
         )
 
+    data = await state.get_data()
+
     Contact.create(
-        user=get_user_model(state),
+        user=await get_user_model(state),
         first_name=data['FIRST_NAME'],
         last_name=data['LAST_NAME'],
         phone=data['PHONE'],

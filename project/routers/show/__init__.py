@@ -7,6 +7,7 @@ from project.misc.enums import UserTextCommandsEnum, BotTextEnum
 from project.misc.keyboards import SHOW_CONTACT_KEYBOARD
 from project.routers.show import show_line, show_vcard
 from project.fsm.state import UserState
+from project.misc.logger import logger
 
 from project.routers.show import show_vcard, show_line
 
@@ -23,6 +24,7 @@ async def choose_write_contact(message: Message, state: FSMContext):
     """
     Обработка комманды 'Записать контакт'
     """
+    logger.info('Переход в режим отображения контакта')
     await message.reply(
         text=BotTextEnum.ENTER_CONTACT,
         reply_markup=SHOW_CONTACT_KEYBOARD

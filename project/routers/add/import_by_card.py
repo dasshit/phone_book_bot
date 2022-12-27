@@ -5,6 +5,7 @@ from aiogram.types import Message
 
 from project.db.models import Contact
 from project.fsm.state import UserState
+from project.misc.logger import logger
 from project.misc.enums import BotTextEnum, UserTextCommandsEnum
 from project.misc.keyboards import BACK_KEYBOARD, CHOOSE_OPERATION_KEYBOARD
 from project.misc.utils import get_user_model
@@ -20,6 +21,7 @@ async def contact_by_card(message: Message, state: FSMContext):
     """
     Импорт контакта через контакт из адресной книги телефона
     """
+    logger.info(f'Переход в режим записи контакта через карточку')
     await message.reply(
         text="Загрузите карточку контакта",
         reply_markup=BACK_KEYBOARD,
@@ -34,13 +36,14 @@ async def import_contact_by_card(message: Message, state: FSMContext):
     """
     Импорт контакта через контакт из адресной книги телефона
     """
+    logger.info(f'Запись контакта через карточку')
     if message.contact is None:
         await message.reply(
             text='Пришлите карточку контакта!'
         )
 
     Contact.create(
-        user=get_user_model(state),
+        user=await get_user_model(state),
         first_name=message.contact.first_name,
         last_name=message.contact.last_name,
         phone=message.contact.phone_number,
